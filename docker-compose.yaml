@@ -1,0 +1,22 @@
+ version: '3.0'
+
+ services:
+   app:
+     container_name: app_lesson_2
+     build:
+       context: .
+       dockerfile: .docker/app/Dockerfile
+     working_dir: /app
+     volumes:
+       - ./app:/app
+
+   webserver:
+     container_name: webserver_lesson_2
+     build:
+       context: .
+       dockerfile: .docker/webserver/Dockerfile
+     working_dir: /app
+     volumes:
+       - ./app:/app
+     ports:
+       - "8080:80"
