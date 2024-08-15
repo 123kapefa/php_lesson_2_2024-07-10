@@ -2,7 +2,7 @@
 
  services:
    app:
-     container_name: app_lesson_2
+     container_name: app_lesson_4
      build:
        context: .
        dockerfile: .docker/app/Dockerfile
@@ -11,7 +11,7 @@
        - ./app:/app
 
    webserver:
-     container_name: webserver_lesson_2
+     container_name: webserver_lesson_4
      build:
        context: .
        dockerfile: .docker/webserver/Dockerfile
