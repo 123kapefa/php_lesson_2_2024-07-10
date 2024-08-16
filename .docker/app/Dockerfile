@@ -6,17 +6,17 @@ ARG DOCKER_GUID=1000
 
 # создаем группу внутри контейнера
 
-#RUN groupadd -g $DOCKER_GUID docker
+RUN groupadd -g $DOCKER_GUID docker
 
 # создаем пользователя
 
-#RUN useradd -g $DOCKER_GUID -u $DOCKER_ID docker
+RUN useradd -g $DOCKER_GUID -u $DOCKER_ID docker
 
 
 COPY .docker/app/docker-entrypoint.sh /docker-entrypoint.sh
 
 # переключаемся на пользователя
 
-#USER docker
+USER docker
 
 ENTRYPOINT /docker-entrypoint.sh
