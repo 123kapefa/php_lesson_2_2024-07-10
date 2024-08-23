@@ -1,22 +1,23 @@
 FROM php:8.2-fpm
 
 # ID пользователя должны совпадать(в конт. и на машине)
-ARG DOCKER_ID=1000
+ARG DOCKER_ID=1001
 ARG DOCKER_GUID=1000
 
 # создаем группу внутри контейнера
-
-#RUN groupadd -g $DOCKER_GUID docker
+RUN groupadd -g $DOCKER_GUID docker
 
 # создаем пользователя
-
-#RUN useradd -g $DOCKER_GUID -u $DOCKER_ID docker
+RUN useradd -g $DOCKER_GUID -u $DOCKER_ID docker
 
 
 COPY .docker/app/docker-entrypoint.sh /docker-entrypoint.sh
 
-# переключаемся на пользователя
+RUN apt-get update && apt-get install -y libpq-dev
 
-#USER docker
+RUN docker-php-ext-install pdo_pgsql
+
+# переключаемся на пользователя
+USER docker
 
 ENTRYPOINT /docker-entrypoint.sh
