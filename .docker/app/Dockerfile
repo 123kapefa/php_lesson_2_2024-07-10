@@ -5,11 +5,9 @@ ARG DOCKER_ID=1000
 ARG DOCKER_GUID=1000
 
 # создаем группу внутри контейнера
-
 RUN groupadd -g $DOCKER_GUID docker
 
 # создаем пользователя
-
 RUN useradd -g $DOCKER_GUID -u $DOCKER_ID docker
 
 
