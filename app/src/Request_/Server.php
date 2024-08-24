@@ -5,18 +5,31 @@ use Exception;
 
 class Server {
     private const REQUEST_METHOD_GET = 'GET';
-
     private const REQUEST_METHOD_PORT = 'POST';
+
+    public static Server $instance;
 
     private array $data;
 
     /**
      * @param array $data
      */
-    public function __construct(array $data)
+    private function __construct(array $data)
     {
         $this->data = $data;
     }
+
+    /**
+     * @param array $data
+     * @return self
+     */
+    public static function getInstance(array $data) : self{
+        if (!isset(self::$instance)) {
+            self::$instance = new self($data);
+        }
+        return self::$instance;
+    }
+
 
     /**
      * @param string $key

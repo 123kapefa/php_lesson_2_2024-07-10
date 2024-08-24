@@ -5,10 +5,13 @@ namespace Request_;
 use Exception;
 
 class Post {
-    public static $instance = null;
+    public static Post $instance;
 
     private array $data;
 
+    /**
+     * @param array $data
+     */
     private function __construct (array $data) {
         $this->data = $data;
     }
@@ -17,9 +20,9 @@ class Post {
      * @param $data
      * @return Post|null
      */
-    public static function getInstance($data) : ?Post {
-        if (self::$instance === null) {
-            self::$instance = new Post($data);
+    public static function getInstance($data) : self {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($data);
         }
         return self::$instance;
     }

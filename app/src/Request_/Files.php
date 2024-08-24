@@ -5,7 +5,7 @@ namespace Request_;
 use Exception;
 
 class Files {
-    public static $instance = null;
+    public static Files $instance;
 
     private array $files;
 
@@ -33,9 +33,9 @@ class Files {
      * @param $files
      * @return Files|null
      */
-    public static function getInstance($files) : ?Files {
-        if (self::$instance === null) {
-            self::$instance = new Files($files);
+    public static function getInstance($files) : self {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($files);
         }
         return self::$instance;
     }
@@ -44,7 +44,7 @@ class Files {
      * @param $key
      * @return bool
      */
-    public function has ($key) {
+    public function has ($key) : bool {
         return array_key_exists ($key, $this->files);
     }
 
@@ -61,11 +61,8 @@ class Files {
     /**
      * @throws Exception
      */
-    public function moveTo (File $file, string $destination) {
-        if (!is_dir ($destination)) {
-            throw new Exception("Destination folder does not exist");
-        }
-        $targetPath = rtrim ($destination, '/') . '/' . $file->getName ();
+    public function moveTo (File $file, string $destination) : string {
+        $targetPath = $destination . '/' . $file->getName ();
         if (!move_uploaded_file ($file->getTmpName (), $targetPath)) {
             throw new Exception("Failed to move file to $targetPath");
         }

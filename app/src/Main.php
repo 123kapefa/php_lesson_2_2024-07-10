@@ -5,11 +5,23 @@ use Request_\Request;
 class Main {
     private Request $request;
 
-    public function main() : void
+    /**
+     * @throws Exception
+     */
+    public function __construct ()
     {
         echo "Run Successful \n\n";
         $this->init();
 
+        $this->request = new Request();
+
+        $pathTo = '/app/public';
+        $file = $this->request->getFiles ()->get ('uploadedFile');
+
+        print_r ($file);
+
+        $result = $this->request->getFiles ()->moveTo ($file, $pathTo);
+        print_r ($result);
     }
 
     private function init() : void
@@ -24,7 +36,6 @@ class Main {
             else {
                 return false;
             }
-            exit;
         });
     }
 }
