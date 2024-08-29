@@ -1,6 +1,6 @@
 <?php
 
-namespace Request;
+namespace Request_;
 
 class File {
     private $name;
