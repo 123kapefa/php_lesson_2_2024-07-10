@@ -10,7 +10,13 @@ class Main {
         echo "Run Successful \n\n";
         $this->init();
 
+        $pathTo = '/app/public';
+        $file = $this->request->getFiles ()->get ('uploadedFile');
 
+        print_r ($file);
+
+        $result = $this->request->getFiles ()->moveTo ($file, $pathTo);
+        print_r ($result);
     }
 
     private function init() : void
