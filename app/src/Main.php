@@ -1,6 +1,6 @@
 <?php
 
-use Request_\Request;
+use Request\Request;
 
 class Main {
     private Request $request;

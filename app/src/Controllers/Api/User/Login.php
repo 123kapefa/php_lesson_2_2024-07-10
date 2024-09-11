@@ -2,7 +2,7 @@
 
 namespace Controllers\Api\User;
 
-use Request_\Post;
+use Request\Post;
 
 class Login {
 
