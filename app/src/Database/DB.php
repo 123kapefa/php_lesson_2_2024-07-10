@@ -1,6 +1,7 @@
 <?php
 
 namespace Database;
+use Models\User;
 use PDO;
 use PDOStatement;
 
@@ -19,7 +20,11 @@ class DB {
             ]
         );
 
-        $this->pdo = new PDO($connectionString, getenv ('DATABASE_USERNAME'), getenv ('DATABASE_PASSWORD'));
+        $this->pdo = new PDO(
+            $connectionString,
+            getenv ('DATABASE_USERNAME'),
+            getenv ('DATABASE_PASSWORD')
+        );
     }
 
     public static function getInstance () : self {
@@ -29,8 +34,11 @@ class DB {
         return self::$instance;
     }
 
-    public function query (string $sql) : PDOStatement {
-        return $this->pdo->query ($sql, PDO::FETCH_ASSOC);
+    public function query (string $sql, array $params = []) : PDOStatement {
+        $result = $this->pdo->prepare($sql);
+        $result->execute($params);
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     /**
@@ -48,5 +56,15 @@ class DB {
         }
 
         return $list;
+    }
+
+    public function getUser (string $sql, string $class, array $params = []) : ?User {
+        $result = $this->pdo->prepare($sql);
+        $result->execute($params);
+        $result->setFetchMode(PDO::FETCH_CLASS, $class);
+
+        $user = $result->fetch ();
+
+        return  $user ?: null;
     }
 }

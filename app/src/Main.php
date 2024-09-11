@@ -16,15 +16,26 @@ class Main {
         if ($base) {
             $class = 'Controllers\\' . implode('\\', $namespace) . '\\' . $base[0];
 
-            $object = new $class();
+            if (class_exists($class)) {
 
-            print_r ($object);
+                $login = new $class();
 
-//            if ($this->request->getServer ()->isGet ()) {
-//                echo $object->getRequest($this->request->getGet ());
-//            } elseif ($this->request->getServer ()->isPst ()) {
-//                echo $object->postRequest($this->request->getPost ());
-//            }
+                if (method_exists($login, 'postRequest')) {
+                    $user = $login->postRequest($this->request->getPost ());
+
+                    if ($user) {
+                        print_r($user);
+                    } else {
+                        echo "Пользователь не найден.";
+                    }
+                } else {
+                    echo "Метод getUserByLogin не найден в классе $class.";
+                }
+            } else {
+                echo "Контроллер $class не найден.";
+            }
+        } else {
+            echo "Не удалось определить базовый путь.";
         }
     }
 
