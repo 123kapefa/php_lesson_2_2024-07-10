@@ -5,9 +5,17 @@ namespace Request_;
 use Exception;
 
 class Post {
+    private static Post $instance;
     private array $data;
 
-    public function __construct (array $data) {
+    public static function getInstance($data) : self {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($data);
+        }
+        return self::$instance;
+    }
+
+    private function __construct (array $data) {
         $this->data = $data;
     }
 

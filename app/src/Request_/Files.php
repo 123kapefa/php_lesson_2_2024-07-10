@@ -5,9 +5,22 @@ namespace Request_;
 use Exception;
 
 class Files {
+    public static Files $instance;
+
     private array $files;
 
-    public function __construct (array $files) {
+    /**
+     * @param $files
+     * @return Files|null
+     */
+    public static function getInstance($files) : self {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($files);
+        }
+        return self::$instance;
+    }
+
+    private function __construct (array $files) {
         $this->files = $files;
 
         foreach ($files as $key => $file) {

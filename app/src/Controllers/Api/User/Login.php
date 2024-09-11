@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Api;
+namespace Controllers\Api\User;
 
 use Request_\Post;
 

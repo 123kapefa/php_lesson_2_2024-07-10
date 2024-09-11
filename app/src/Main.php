@@ -10,18 +10,27 @@ class Main {
         echo "Run Successful \n\n";
         $this->init();
 
-        $pathTo = '/app/public';
-        $file = $this->request->getFiles ()->get ('uploadedFile');
+        $namespace = $this->request->getRoute ()->getParentPath();
+        $base = $this->request->getRoute ()->getBase();
 
-        print_r ($file);
+        if ($base) {
+            $class = 'Controllers\\' . implode('\\', $namespace) . '\\' . $base[0];
 
-        $result = $this->request->getFiles ()->moveTo ($file, $pathTo);
-        print_r ($result);
+            $object = new $class();
+
+            print_r ($object);
+
+//            if ($this->request->getServer ()->isGet ()) {
+//                echo $object->getRequest($this->request->getGet ());
+//            } elseif ($this->request->getServer ()->isPst ()) {
+//                echo $object->postRequest($this->request->getPost ());
+//            }
+        }
     }
 
     private function init() : void
     {
-        include include ('../src/Autoload.php');
+        include ('../src/Autoload.php');
         Autooload::registrate ();
 
         $this->request = new Request();

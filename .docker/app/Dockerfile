@@ -10,7 +10,6 @@ RUN groupadd -g $DOCKER_GUID docker
 # создаем пользователя
 RUN useradd -g $DOCKER_GUID -u $DOCKER_ID docker
 
-
 COPY .docker/app/docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN apt-get update && apt-get install -y libpq-dev

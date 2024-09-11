@@ -4,7 +4,20 @@ namespace Request_;
 use Exception;
 
 class Get {
+    private static Get $instance;
+
     private array $data;
+
+    /**
+     * @param $data
+     * @return self
+     */
+    public static function getInstance($data): self {
+        if(!isset(self::$instance)){
+            self::$instance = new self($data);
+        }
+        return self::$instance;
+    }
 
     public function __construct(array $data)
     {

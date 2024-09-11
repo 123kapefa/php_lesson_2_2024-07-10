@@ -2,17 +2,21 @@
 
 namespace Request_;
 
+use Routing\Route;
+
 class Request {
     private Get $get;
     private Post $post;
     private Files $files;
     private Server $server;
+    private Route $route;
 
     public function __construct () {
         $this->get = Get::getInstance ($_GET);
         $this->post = Post::getInstance ($_POST);
         $this->files = Files::getInstance ($_FILES);
         $this->server = Server::getInstance ($_SERVER);
+        $this->route = Route::getInstance ($_SERVER['REQUEST_URI']);
     }
 
     public function getGet () : Get {
@@ -29,5 +33,9 @@ class Request {
 
     public function getFiles () : Files {
         return $this->files;
+    }
+
+    public function getRoute () : Route {
+        return $this->route;
     }
 }

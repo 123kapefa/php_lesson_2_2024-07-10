@@ -7,10 +7,18 @@ class Route {
 
     private array $pathUri;
 
-    public function __construct(string $requestUri)
+    private static Route $instance;
+
+    public static function getInstance(string $requestUri): self {
+        if(!isset(self::$instance)){
+            self::$instance = new self($requestUri);
+        }
+        return self::$instance;
+    }
+
+    private function __construct(string $requestUri)
     {
         if (preg_match('/^\/(?<request>[0-9a-zA-Z_\/-]*[0-9a-zA-Z_-]+)/', $requestUri, $match)) {
-            //print_r($match);
             $this->requestUri = $match['request'];
         }
 
@@ -18,7 +26,17 @@ class Route {
 
         $this->pathUri = array_filter($this->pathUri, fn ($item) => !empty($item));
 
-        print_r($this->pathUri);
+        $this->pathUri = array_map([$this, 'transformPathSegment'], $this->pathUri);
+    }
+
+    private function transformPathSegment(string $segment): string {
+        $segment = preg_replace_callback('/[-_](.)/',
+            function($matches) {
+                return strtoupper($matches[1]);
+            },
+            $segment);
+
+        return ucfirst($segment);
     }
 
     public function getParentPath() : array
