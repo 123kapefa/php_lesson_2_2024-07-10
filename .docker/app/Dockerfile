@@ -23,7 +23,6 @@ RUN php -r "unlink('composer-setup.php');"
 
 RUN mv composer.phar /usr/local/bin/composer
 
-# переключаемся на пользователя
 USER docker
 
 ENTRYPOINT /docker-entrypoint.sh
